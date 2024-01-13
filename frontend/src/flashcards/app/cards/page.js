@@ -1,10 +1,10 @@
 import { FlashCard } from "@/component/card";
-import { Heading } from "@chakra-ui/react";
+import Header from "@/component/header";
 
 export default function Cards() {
   return (
     <div>
-      <Heading as="h1" paddingBottom="5px">FlashCards</Heading>
+      <Header />
       <FlashCard />
     </div>
   );

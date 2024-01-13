@@ -28,21 +28,35 @@ export function FlashCard() {
     setIsFront(true);
     setWord("Loading...");
     const url = backendHost + "/flashcard";
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const res = data.data || {
-          word: "hotel",
-          description: "where you stay",
-          part_of_speech: "noun",
-          example: "I stay in a hotel.",
-        };
-        setWord(res.word);
-        setDefinition(res.description);
-        setPartOfSpeech(res.part_of_speech);
-        setExample(res.example);
-      });
+    try {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const res = data.data || {
+            word: "hotel",
+            description: "where you stay",
+            part_of_speech: "noun",
+            example: "I stay in a hotel.",
+          };
+          setWord(res.word);
+          setDefinition(res.description);
+          setPartOfSpeech(res.part_of_speech);
+          setExample(res.example);
+        });
+    } catch (error) {
+      console.log(error);
+      const res = {
+        word: "hotel",
+        description: "where you stay",
+        part_of_speech: "noun",
+        example: "I stay in a hotel.",
+      };
+      setWord(res.word);
+      setDefinition(res.description);
+      setPartOfSpeech(res.part_of_speech);
+      setExample(res.example);
+    }
   };
 
   useEffect(() => {
@@ -113,7 +127,7 @@ function Back({ definition, example, word, getFlashCard }) {
 
 function FlashCardButtons({ word, definition, getFlashCard }) {
   return (
-    <Flex>
+    <Flex width="100%">
       <UpdateStatusButton
         status={1}
         word={word}
@@ -133,7 +147,9 @@ function FlashCardButtons({ word, definition, getFlashCard }) {
       >
         Learn Again
       </UpdateStatusButton>
+
       <Spacer />
+
       <UpdateStatusButton
         status={3}
         word={word}
