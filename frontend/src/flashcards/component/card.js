@@ -32,7 +32,12 @@ export function FlashCard() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        const res = data.data;
+        const res = data.data || {
+          word: "hotel",
+          description: "where you stay",
+          part_of_speech: "noun",
+          example: "I stay in a hotel.",
+        };
         setWord(res.word);
         setDefinition(res.description);
         setPartOfSpeech(res.part_of_speech);
