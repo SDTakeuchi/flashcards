@@ -5,10 +5,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/SDTakeuchi/flashcards/adapter/config"
-	"github.com/SDTakeuchi/flashcards/domain/model"
-	"github.com/SDTakeuchi/flashcards/domain/repo"
-	"github.com/SDTakeuchi/flashcards/pkg/google/spreadsheet"
+	"github.com/SDTakeuchi/go/src/flashcards/adapter/config"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/repo"
+	"github.com/SDTakeuchi/go/src/flashcards/pkg/google/spreadsheet"
 	"github.com/google/uuid"
 )
 

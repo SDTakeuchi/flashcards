@@ -1,4 +1,4 @@
-module github.com/SDTakeuchi/flashcards
+module github.com/SDTakeuchi/go/src/flashcards
 
 go 1.21.0
 

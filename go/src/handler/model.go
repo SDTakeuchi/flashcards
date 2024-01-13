@@ -3,7 +3,7 @@ package handler
 import (
 	"time"
 
-	"github.com/SDTakeuchi/flashcards/domain/model"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model"
 )
 
 type TimeMixin struct {

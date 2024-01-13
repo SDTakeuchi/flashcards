@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/SDTakeuchi/flashcards/domain/model"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model"
 )
 
 type CardRepo interface {

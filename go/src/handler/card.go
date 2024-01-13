@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/SDTakeuchi/flashcards/domain/model"
-	"github.com/SDTakeuchi/flashcards/usecase"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model"
+	"github.com/SDTakeuchi/go/src/flashcards/usecase"
 	"github.com/gin-gonic/gin"
 )
 

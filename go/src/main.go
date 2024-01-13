@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/SDTakeuchi/flashcards/adapter/config"
-	"github.com/SDTakeuchi/flashcards/adapter/domain_impl/repo"
-	"github.com/SDTakeuchi/flashcards/handler"
-	"github.com/SDTakeuchi/flashcards/pkg/google/spreadsheet"
-	"github.com/SDTakeuchi/flashcards/server"
-	"github.com/SDTakeuchi/flashcards/usecase"
+	"github.com/SDTakeuchi/go/src/flashcards/adapter/config"
+	"github.com/SDTakeuchi/go/src/flashcards/adapter/domain_impl/repo"
+	"github.com/SDTakeuchi/go/src/flashcards/handler"
+	"github.com/SDTakeuchi/go/src/flashcards/pkg/google/spreadsheet"
+	"github.com/SDTakeuchi/go/src/flashcards/server"
+	"github.com/SDTakeuchi/go/src/flashcards/usecase"
 )
 
 const defaultAddress = ":8000"

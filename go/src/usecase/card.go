@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 
-	"github.com/SDTakeuchi/flashcards/domain/model"
-	"github.com/SDTakeuchi/flashcards/domain/repo"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model"
+	"github.com/SDTakeuchi/go/src/flashcards/domain/repo"
 	"github.com/google/uuid"
 )
 

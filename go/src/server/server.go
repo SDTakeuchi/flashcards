@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/SDTakeuchi/flashcards/handler"
+	"github.com/SDTakeuchi/go/src/flashcards/handler"
 	"github.com/gin-gonic/gin"
 )
 
