@@ -64,7 +64,7 @@ export function FlashCard() {
   }, []);
 
   return (
-    <Card onClick={flip}>
+    <Card onClick={flip} maxH="80vh" minH="300px">
       {isFront ? (
         <Front text={word} footer={partOfSpeech} />
       ) : (
