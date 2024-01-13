@@ -1,0 +1,5 @@
+./frontend/src/node_modules/*
+./frontend/src/flashcards/node_modules/*
+./go/adapter/config/config.yaml
+./go/pkg/google/spreadseet/credential/*
+gin-bin
