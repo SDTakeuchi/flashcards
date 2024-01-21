@@ -17,9 +17,10 @@ const defaultAddress = ":8000"
 
 func main() {
 	ctx := context.Background()
+	config.Load()
 	sheetService, err := spreadsheet.InitService(
 		ctx,
-		fmt.Sprintf("./pkg/google/spreadsheet/credential/%s", config.Get().SheetCredential),
+		fmt.Sprintf("pkg/google/spreadsheet/credential/%s", config.Get().SheetCredential),
 		config.Get().TabName,
 	)
 	if err != nil {
