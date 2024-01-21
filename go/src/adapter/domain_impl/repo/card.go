@@ -44,6 +44,7 @@ func (r *cardRepo) GetByWordDescription(word, description string) (*model.Card, 
 				&v.LastSeen,
 				v.PartOfSpeech,
 				v.Example,
+				v.Pronunciation,
 				v.CreatedAt,
 				v.UpdatedAt,
 			), uint(i + 2), nil
@@ -80,6 +81,7 @@ func (r *cardRepo) GetLastUpdated() (*model.Card, error) {
 		&MostLastSeen.LastSeen,
 		MostLastSeen.PartOfSpeech,
 		MostLastSeen.Example,
+		MostLastSeen.Pronunciation,
 		MostLastSeen.CreatedAt,
 		MostLastSeen.UpdatedAt,
 	), nil
@@ -97,5 +99,6 @@ func (r *cardRepo) UpdateStatus(row uint, c *model.Card) error {
 		strconv.Itoa(int(c.Status().Uint8())),
 		c.CreatedAt().Format(time.RFC3339),
 		c.UpdatedAt().Format(time.RFC3339),
+		c.Pronunciation(),
 	)
 }

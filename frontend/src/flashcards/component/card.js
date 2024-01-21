@@ -20,42 +20,42 @@ export function FlashCard() {
 
   const flip = () => setIsFront(!isFront);
   const [word, setWord] = useState("");
+  const [pronunciation, setPronunciation] = useState("");
   const [definition, setDefinition] = useState("");
   const [partOfSpeech, setPartOfSpeech] = useState("");
   const [example, setExample] = useState("");
 
   const getFlashCard = () => {
+    setPronunciation("");
     setIsFront(true);
     setWord("Loading...");
     const url = backendHost + "/flashcard";
+    const mockRes = {
+      word: "error",
+      description: "a mistake",
+      part_of_speech: "noun",
+      example: "He admitted that he'd made an error.",
+      pronunciation: "/ˈer.ɚ/",
+    };
     try {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          const res = data.data || {
-            word: "hotel",
-            description: "where you stay",
-            part_of_speech: "noun",
-            example: "I stay in a hotel.",
-          };
+          const res = data.data || mockRes;
           setWord(res.word);
           setDefinition(res.description);
           setPartOfSpeech(res.part_of_speech);
           setExample(res.example);
+          setPronunciation(res.pronunciation);
         });
     } catch (error) {
       console.log(error);
-      const res = {
-        word: "hotel",
-        description: "where you stay",
-        part_of_speech: "noun",
-        example: "I stay in a hotel.",
-      };
-      setWord(res.word);
-      setDefinition(res.description);
-      setPartOfSpeech(res.part_of_speech);
-      setExample(res.example);
+      setWord(mockRes.word);
+      setDefinition(mockRes.description);
+      setPartOfSpeech(mockRes.part_of_speech);
+      setExample(mockRes.example);
+      setPronunciation(mockRes.pronunciation);
     }
   };
 
@@ -66,7 +66,11 @@ export function FlashCard() {
   return (
     <Card onClick={flip} maxH="80vh" minH="300px">
       {isFront ? (
-        <Front text={word} footer={partOfSpeech} />
+        <Front
+          text={word}
+          pronunciation={pronunciation}
+          footer={partOfSpeech}
+        />
       ) : (
         <Back
           definition={definition}
@@ -79,7 +83,15 @@ export function FlashCard() {
   );
 }
 
-function Front({ text, footer }) {
+function Front({ text, pronunciation, footer }) {
+  if (
+    pronunciation &&
+    !pronunciation.startsWith("/") &&
+    !pronunciation.endsWith("/")
+  ) {
+    pronunciation = `/${pronunciation}/`;
+  }
+
   return (
     <>
       <CardHeader>
@@ -88,7 +100,10 @@ function Front({ text, footer }) {
         </Heading>
       </CardHeader>
       <CardBody>
-        <Text>{text}</Text>
+        <Text>
+          {text}
+          {pronunciation && ` ${pronunciation}`}
+        </Text>
       </CardBody>
       {footer !== "unspecified" && <CardFooter>as {footer}</CardFooter>}
     </>

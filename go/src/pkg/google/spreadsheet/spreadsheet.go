@@ -42,7 +42,7 @@ func InitService(ctx context.Context, pathCredential, tabName string) (*spreadsh
 	return &spreadsheetService{
 		tabName:         tabName,
 		cellTopLeft:     "A1",
-		cellBottomRight: "H",
+		cellBottomRight: "I",
 		service:         srv,
 	}, nil
 }
@@ -66,14 +66,15 @@ func (s *spreadsheetService) getSheet(spreadsheetID string) (*sheets.ValueRange,
 }
 
 type Value struct {
-	Word         string
-	Description  string
-	LastSeen     time.Time
-	Status       int
-	PartOfSpeech string
-	Example      string
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	Word          string
+	Description   string
+	LastSeen      time.Time
+	Status        int
+	PartOfSpeech  string
+	Example       string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	Pronunciation string
 }
 
 func (s *spreadsheetService) Read(spreadsheetID string) ([]*Value, error) {
@@ -96,7 +97,8 @@ func (s *spreadsheetService) Read(spreadsheetID string) ([]*Value, error) {
 
 		var partOfSpeech string
 		if len(row) >= 3 {
-			partOfSpeech = row[2].(string)
+			partOfSpeech = strings.Trim(row[2].(string), " ")
+
 		}
 
 		var example string
@@ -125,15 +127,21 @@ func (s *spreadsheetService) Read(spreadsheetID string) ([]*Value, error) {
 			updatedAt, _ = time.Parse(time.RFC3339, row[7].(string))
 		}
 
+		var pronunciation string
+		if len(row) >= 9 {
+			pronunciation = row[8].(string)
+		}
+
 		values[i-1] = &Value{ // i-1 because skip header
-			Word:         word,
-			Description:  description,
-			LastSeen:     lastSeen,
-			Status:       status,
-			PartOfSpeech: partOfSpeech,
-			Example:      example,
-			CreatedAt:    createdAt,
-			UpdatedAt:    updatedAt,
+			Word:          word,
+			Description:   description,
+			LastSeen:      lastSeen,
+			Status:        status,
+			PartOfSpeech:  partOfSpeech,
+			Example:       example,
+			CreatedAt:     createdAt,
+			UpdatedAt:     updatedAt,
+			Pronunciation: pronunciation,
 		}
 	}
 	return values, nil

@@ -10,26 +10,28 @@ import (
 
 type Card struct {
 	TimeMixin
-	id           uuid.UUID
-	word         string
-	description  string
-	lastSeen     *time.Time
-	status       CardStatus
-	userID       uuid.UUID
-	partOfSpeech PartOfSpeech
-	example      string
+	id            uuid.UUID
+	word          string
+	description   string
+	lastSeen      *time.Time
+	status        CardStatus
+	userID        uuid.UUID
+	partOfSpeech  PartOfSpeech
+	example       string
+	pronunciation string
 }
 
-func NewCard(word, description, example string, pos PartOfSpeech, userID *uuid.UUID) (*Card, error) {
+func NewCard(word, description, example, pronunciation string, pos PartOfSpeech, userID *uuid.UUID) (*Card, error) {
 	c := &Card{
-		id:           uuid.New(),
-		word:         word,
-		description:  description,
-		status:       CardStatusUnspecified,
-		lastSeen:     nil,
-		partOfSpeech: pos,
-		example:      example,
-		TimeMixin:    *NewTimeMixin(),
+		id:            uuid.New(),
+		word:          word,
+		description:   description,
+		status:        CardStatusUnspecified,
+		lastSeen:      nil,
+		partOfSpeech:  pos,
+		example:       example,
+		pronunciation: pronunciation,
+		TimeMixin:     *NewTimeMixin(),
 	}
 	if userID != nil {
 		c.userID = *userID
@@ -55,17 +57,30 @@ func validateCard(c *Card) error {
 	return nil
 }
 
-func CardFromPersistence(id, word, description, userID string, status uint8, lastSeen *time.Time, pos, example string, createdAt, updatedAt time.Time) *Card {
+func CardFromPersistence(
+	id,
+	word,
+	description,
+	userID string,
+	status uint8,
+	lastSeen *time.Time,
+	pos,
+	example,
+	pronunciation string,
+	createdAt,
+	updatedAt time.Time,
+) *Card {
 	return &Card{
-		id:           uuid.MustParse(id),
-		word:         word,
-		description:  description,
-		status:       CardStatusFromUint8(status),
-		lastSeen:     lastSeen,
-		userID:       uuid.MustParse(userID),
-		partOfSpeech: PartOfSpeechFromString(pos),
-		example:      example,
-		TimeMixin:    *TimeMixinFromPersistence(createdAt, updatedAt),
+		id:            uuid.MustParse(id),
+		word:          word,
+		description:   description,
+		status:        CardStatusFromUint8(status),
+		lastSeen:      lastSeen,
+		userID:        uuid.MustParse(userID),
+		partOfSpeech:  PartOfSpeechFromString(pos),
+		example:       example,
+		pronunciation: pronunciation,
+		TimeMixin:     *TimeMixinFromPersistence(createdAt, updatedAt),
 	}
 }
 
@@ -76,6 +91,7 @@ func (c Card) LastSeen() *time.Time       { return c.lastSeen }
 func (c Card) Status() CardStatus         { return c.status }
 func (c Card) PartOfSpeech() PartOfSpeech { return c.partOfSpeech }
 func (c Card) Example() string            { return c.example }
+func (c Card) Pronunciation() string      { return c.pronunciation }
 func (c Card) UserID() uuid.UUID          { return c.userID }
 
 func (c *Card) Seen() {
