@@ -53,3 +53,13 @@ func (h *CardHandler) UpdateFlashcard(c *gin.Context) {
 	}
 	respSuccess(c, "update success")
 }
+
+func (h *CardHandler) GetRememberedFlashcards(c *gin.Context) {
+	ctx := c.Request.Context()
+	card, err := h.cardUseCase.GetRemembered(ctx)
+	if err != nil {
+		respError(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	respSuccess(c, convertCard(card))
+}

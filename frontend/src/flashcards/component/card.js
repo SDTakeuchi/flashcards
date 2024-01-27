@@ -26,10 +26,16 @@ export function FlashCard() {
   const [example, setExample] = useState("");
 
   const getFlashCard = () => {
+    setExample("");
     setPronunciation("");
     setIsFront(true);
     setWord("Loading...");
-    const url = backendHost + "/flashcard";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const url =
+      urlParams.get("cards") === "remembered"
+        ? backendHost + "/flashcard/remembered"
+        : backendHost + "/flashcard";
     const mockRes = {
       word: "error",
       description: "a mistake",
@@ -69,6 +75,7 @@ export function FlashCard() {
         <Front
           text={word}
           pronunciation={pronunciation}
+          example={example}
           footer={partOfSpeech}
         />
       ) : (
@@ -83,7 +90,7 @@ export function FlashCard() {
   );
 }
 
-function Front({ text, pronunciation, footer }) {
+function Front({ text, pronunciation, example, footer }) {
   if (
     pronunciation &&
     !pronunciation.startsWith("/") &&
@@ -104,6 +111,14 @@ function Front({ text, pronunciation, footer }) {
           {text}
           {pronunciation && ` ${pronunciation}`}
         </Text>
+        {example !== "" && (
+          <>
+            <Heading as="h4" size="sm" marginTop="10px" marginBottom="5px">
+              Example
+            </Heading>
+            <Text>{example}</Text>
+          </>
+        )}
       </CardBody>
       {footer !== "unspecified" && <CardFooter>as {footer}</CardFooter>}
     </>

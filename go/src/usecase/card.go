@@ -10,8 +10,23 @@ import (
 
 type CardUsecase interface {
 	GetOldest(ctx context.Context) (*model.Card, error)
+	GetRemembered(ctx context.Context) (*model.Card, error)
 	Create(ctx context.Context, word, description string, userID uuid.UUID) error
 	Update(ctx context.Context, word, description string, status model.CardStatus) error
+}
+
+type CardOutput struct {
+	Meta *Meta       `json:"meta"`
+	Card *model.Card `json:"card"`
+}
+
+type Meta struct {
+	Total              int `json:"total"`
+	TotalSeenToday     int `json:"total_seen_today"`
+	TotalUnspecified   int `json:"total_unspecified"`
+	TotalRemembered    int `json:"total_remembered"`
+	TotalLearnAgain    int `json:"total_learn_again"`
+	TotalNotRemembered int `json:"total_not_remembered"`
 }
 
 type cardUsecase struct {
@@ -26,6 +41,10 @@ func NewCardUsecase(cardRepo repo.CardRepo) *cardUsecase {
 
 func (u *cardUsecase) GetOldest(ctx context.Context) (*model.Card, error) {
 	return u.cardRepo.GetLastUpdated()
+}
+
+func (u *cardUsecase) GetRemembered(ctx context.Context) (*model.Card, error) {
+	return u.cardRepo.GetLastRemembered()
 }
 
 func (u *cardUsecase) Create(ctx context.Context, word, description string, userID uuid.UUID) error {

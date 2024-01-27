@@ -21,6 +21,7 @@ func (s *Server) Run(address string) {
 	engine := gin.Default()
 	api := engine.Group("/api")
 	api.GET("/flashcard", s.ch.GetFlashcard)
+	api.GET("/flashcard/remembered", s.ch.GetRememberedFlashcards)
 	api.PUT("/flashcard", s.ch.UpdateFlashcard)
 
 	user := api.Group("/user")

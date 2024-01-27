@@ -59,7 +59,7 @@ func (r *cardRepo) GetLastUpdated() (*model.Card, error) {
 		return nil, err
 	}
 
-	var MostLastSeen *spreadsheet.Value
+	var LastUpdated *spreadsheet.Value
 	for _, v := range values {
 		if v == nil {
 			continue
@@ -67,23 +67,61 @@ func (r *cardRepo) GetLastUpdated() (*model.Card, error) {
 		if v.Status == int(model.CardStatusRemembered) {
 			continue
 		}
-		if MostLastSeen == nil || v.LastSeen.Before(MostLastSeen.LastSeen) {
-			MostLastSeen = v
+		if LastUpdated == nil || v.LastSeen.Before(LastUpdated.LastSeen) {
+			LastUpdated = v
 		}
 	}
 
 	return model.CardFromPersistence(
 		uuid.NewString(),
-		MostLastSeen.Word,
-		MostLastSeen.Description,
+		LastUpdated.Word,
+		LastUpdated.Description,
 		uuid.NewString(),
-		uint8(MostLastSeen.Status),
-		&MostLastSeen.LastSeen,
-		MostLastSeen.PartOfSpeech,
-		MostLastSeen.Example,
-		MostLastSeen.Pronunciation,
-		MostLastSeen.CreatedAt,
-		MostLastSeen.UpdatedAt,
+		uint8(LastUpdated.Status),
+		&LastUpdated.LastSeen,
+		LastUpdated.PartOfSpeech,
+		LastUpdated.Example,
+		LastUpdated.Pronunciation,
+		LastUpdated.CreatedAt,
+		LastUpdated.UpdatedAt,
+	), nil
+}
+
+func (r *cardRepo) GetLastRemembered() (*model.Card, error) {
+	values, err := r.sheetService.Read(config.Get().SheetID)
+	if err != nil {
+		return nil, err
+	}
+
+	var RememberedOldest *spreadsheet.Value
+	for _, v := range values {
+		if v == nil {
+			continue
+		}
+		if v.Status != int(model.CardStatusRemembered) {
+			continue
+		}
+		if RememberedOldest == nil || v.LastSeen.Before(RememberedOldest.LastSeen) {
+			RememberedOldest = v
+		}
+	}
+
+	if RememberedOldest == nil {
+		return nil, ErrNotFound
+	}
+
+	return model.CardFromPersistence(
+		uuid.NewString(),
+		RememberedOldest.Word,
+		RememberedOldest.Description,
+		uuid.NewString(),
+		uint8(RememberedOldest.Status),
+		&RememberedOldest.LastSeen,
+		RememberedOldest.PartOfSpeech,
+		RememberedOldest.Example,
+		RememberedOldest.Pronunciation,
+		RememberedOldest.CreatedAt,
+		RememberedOldest.UpdatedAt,
 	), nil
 }
 
