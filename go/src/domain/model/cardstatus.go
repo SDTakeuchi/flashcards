@@ -43,27 +43,19 @@ func (c CardStatus) Uint8() uint8 {
 }
 
 func CardStatusFromString(status string) CardStatus {
-	switch status {
-	case cardStatuses[CardStatusRemembered]:
-		return CardStatusRemembered
-	case cardStatuses[CardStatusLearnAgain]:
-		return CardStatusLearnAgain
-	case cardStatuses[CardStatusNotRemembered]:
-		return CardStatusNotRemembered
-	default:
-		return CardStatusUnspecified
+	for k, v := range cardStatuses {
+		if v == status {
+			return k
+		}
 	}
+	return CardStatusUnspecified
 }
 
 func CardStatusFromUint8(status uint8) CardStatus {
-	switch status {
-	case uint8(CardStatusRemembered):
-		return CardStatusRemembered
-	case uint8(CardStatusLearnAgain):
-		return CardStatusLearnAgain
-	case uint8(CardStatusNotRemembered):
-		return CardStatusNotRemembered
-	default:
-		return CardStatusUnspecified
+	for k := range cardStatuses {
+		if uint8(k) == status {
+			return k
+		}
 	}
+	return CardStatusUnspecified
 }

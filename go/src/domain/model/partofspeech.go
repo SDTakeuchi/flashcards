@@ -72,49 +72,20 @@ func (p PartOfSpeech) Uint8() uint8 {
 	}
 }
 
-
 func PartOfSpeechFromString(s string) PartOfSpeech {
-	switch s {
-	case partOfSpeeches[PartOfSpeechNoun]:
-		return PartOfSpeechNoun
-	case partOfSpeeches[PartOfSpeechVerb]:
-		return PartOfSpeechVerb
-	case partOfSpeeches[PartOfSpeechAdjective]:
-		return PartOfSpeechAdjective
-	case partOfSpeeches[PartOfSpeechAdverb]:
-		return PartOfSpeechAdverb
-	case partOfSpeeches[PartOfSpeechPronoun]:
-		return PartOfSpeechPronoun
-	case partOfSpeeches[PartOfSpeechPreposition]:
-		return PartOfSpeechPreposition
-	case partOfSpeeches[PartOfSpeechConjunction]:
-		return PartOfSpeechConjunction
-	case partOfSpeeches[PartOfSpeechInterjection]:
-		return PartOfSpeechInterjection
-	default:
-		return PartOfSpeechUnspecified
+	for k, v := range partOfSpeeches {
+		if v == s {
+			return k
+		}
 	}
+	return PartOfSpeechUnspecified
 }
 
 func PartOfSpeechFromUint8(pos uint8) PartOfSpeech {
-	switch pos {
-	case uint8(PartOfSpeechNoun):
-		return PartOfSpeechNoun
-	case uint8(PartOfSpeechVerb):
-		return PartOfSpeechVerb
-	case uint8(PartOfSpeechAdjective):
-		return PartOfSpeechAdjective
-	case uint8(PartOfSpeechAdverb):
-		return PartOfSpeechAdverb
-	case uint8(PartOfSpeechPronoun):
-		return PartOfSpeechPronoun
-	case uint8(PartOfSpeechPreposition):
-		return PartOfSpeechPreposition
-	case uint8(PartOfSpeechConjunction):
-		return PartOfSpeechConjunction
-	case uint8(PartOfSpeechInterjection):
-		return PartOfSpeechInterjection
-	default:
-		return PartOfSpeechUnspecified
+	for k := range partOfSpeeches {
+		if uint8(k) == pos {
+			return k
+		}
 	}
+	return PartOfSpeechUnspecified
 }
