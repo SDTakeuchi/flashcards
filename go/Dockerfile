@@ -39,5 +39,3 @@ COPY ./src/ .
 RUN go mod tidy
 
 EXPOSE 8000
-
-CMD ["./start.sh"]

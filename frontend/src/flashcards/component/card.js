@@ -13,7 +13,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const backendHost = process.env.BACKEND_HOST || "http://localhost/api";
+const backendHost = process.env.BACKEND_HOST || "http://localhost/backend_api";
 
 export function FlashCard() {
   const [isFront, setIsFront] = useState(true);

@@ -19,7 +19,7 @@ func NewServer(ch *handler.CardHandler, uh *handler.UserHandler) *Server {
 
 func (s *Server) Run(address string) {
 	engine := gin.Default()
-	api := engine.Group("/api")
+	api := engine.Group("/backend_api")
 	api.GET("/flashcard", s.ch.GetFlashcard)
 	api.GET("/flashcard/remembered", s.ch.GetRememberedFlashcards)
 	api.PUT("/flashcard", s.ch.UpdateFlashcard)

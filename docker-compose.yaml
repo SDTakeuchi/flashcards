@@ -38,7 +38,9 @@ services:
         environment:
             - CHOKIDAR_USEPOLLING=true
             - WATCHPACK_POLLING=true
-            - BACKEND_HOST=http://flashcard_backend/api
+            - BACKEND_HOST=http://flashcard_backend/backend_api
+            - NEXTAUTH_SECRET="tDTNe/tKngGWvPcNkqSaM+hnLuZS/rwTVzk6QH3EVGU="
+            - NEXTAUTH_URL=http://localhost:3000
         ports:
             - "3000:3000"
         working_dir: /usr/src/flashcards
@@ -53,6 +55,7 @@ services:
             - "8000:8000"
         volumes:
             - ./go/src:/go/flashcards/
+        command: ["./start.sh"]
 
 # volumes:
 #     db_volume:
