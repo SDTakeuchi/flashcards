@@ -3,3 +3,4 @@ frontend/src/flashcards/node_modules/*
 go/src/adapter/config/config.yaml
 go/src/pkg/google/spreadsheet/credential/*
 gin-bin
+postgresql

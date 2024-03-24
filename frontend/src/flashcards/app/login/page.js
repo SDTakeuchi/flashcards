@@ -1,10 +1,14 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function LoginPage({ searchParams }) {
   const [inputs, setInputs] = useState({ username: "", password: "" });
+  const router = useRouter();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -13,16 +17,15 @@ export default function LoginPage({ searchParams }) {
   };
 
   const handleSubmit = async (event) => {
-    console.log("inputs.username: ", inputs.username);
-    console.log("inputs.password: ", inputs.password);
-
     event.preventDefault();
-    await signIn("credentials", {
-      username: inputs.username,
-      password: inputs.password,
-      callbackUrl: "/",
-    });
+    // await signIn("credentials", {
+    //   username: inputs.username,
+    //   password: inputs.password,
+    //   callbackUrl: "/",
+    // });
+    await login(router, inputs.username, inputs.password);
   };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -91,3 +94,31 @@ export default function LoginPage({ searchParams }) {
     </>
   );
 }
+
+const login = async (router, username, password) => {
+  let user = {
+    id: undefined,
+    name: undefined,
+    accessToken: undefined,
+  };
+
+  axios
+    .post("http://localhost/backend_api/auth/login", {
+      name: username,
+      password: password,
+    })
+    .then((response) => {
+      console.log("response: ", response);
+      user.id = response.data.user_id;
+      user.name = username;
+      user.accessToken = response.data.access_token;
+
+      Cookies.set("flashcard_access_token", response.data.access_token);
+    })
+    .catch((error) => {
+      console.log(error);
+      router.replace("/login");
+    });
+
+  router.replace("/cards");
+};

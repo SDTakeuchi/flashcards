@@ -1,5 +1,5 @@
 # 1st stage build for prod env
-FROM golang:1.21.5-alpine3.19 as builder
+FROM golang:1.22.1-alpine as builder
 
 WORKDIR /go/flashcards/
 
@@ -25,7 +25,7 @@ ENTRYPOINT [ "/go_app" ]
 
 
 # dev env; live reload enabled
-FROM golang:1.21.5-alpine3.19 as dev
+FROM golang:1.22.1-alpine as dev
 
 WORKDIR /go/flashcards/
 

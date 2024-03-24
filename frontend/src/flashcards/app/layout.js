@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ height: '100vh' }}>
+      <body className={inter.className} style={{ height: "100vh" }}>
         <ChakraProvider theme={theme}>
           {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
           <Container maxW="container.md" minW="container.xs">

@@ -1,7 +1,9 @@
 package server
 
 import (
+	"github.com/SDTakeuchi/go/src/flashcards/domain/model/auth"
 	"github.com/SDTakeuchi/go/src/flashcards/handler"
+	"github.com/SDTakeuchi/go/src/flashcards/handler/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,17 +19,21 @@ func NewServer(ch *handler.CardHandler, uh *handler.UserHandler) *Server {
 	}
 }
 
-func (s *Server) Run(address string) {
+func (s *Server) Run(address string, tokenIssuer auth.TokenIssuer) {
 	engine := gin.Default()
-	api := engine.Group("/backend_api")
-	api.GET("/flashcard", s.ch.GetFlashcard)
-	api.GET("/flashcard/remembered", s.ch.GetRememberedFlashcards)
-	api.PUT("/flashcard", s.ch.UpdateFlashcard)
 
-	user := api.Group("/user")
+	auth := engine.Group("/backend_api/auth")
 	{
-		user.POST("/sign_up", s.uh.SignUp)
-		user.POST("/login", s.uh.Login)
+		auth.POST("/signup", s.uh.SignUp)
+		auth.POST("/login", s.uh.Login)
 	}
+
+	api := engine.Group("/backend_api").Use(middleware.CheckAuth(tokenIssuer))
+	{
+		api.GET("/flashcard", s.ch.GetFlashcard)
+		api.GET("/flashcard/remembered", s.ch.GetRememberedFlashcards)
+		api.PUT("/flashcard", s.ch.UpdateFlashcard)
+	}
+
 	engine.Run(address)
 }

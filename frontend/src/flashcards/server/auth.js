@@ -30,7 +30,6 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const { username, password } = credentials;
-        console.log("name and password: ", username, password);
         return userService.authenticate(username, password);
       },
     }),

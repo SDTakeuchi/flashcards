@@ -15,7 +15,7 @@ type User struct {
 	password Password
 }
 
-func NewUser(name string, description string, password Password) (*User, error) {
+func NewUser(name string, password Password) (*User, error) {
 	u := &User{
 		id:        uuid.New(),
 		name:      name,
@@ -49,11 +49,6 @@ func UserFromPersistence(id, name, password string, createdAt, updatedAt time.Ti
 	}
 }
 
-func (c *User) ID() uuid.UUID { return c.id }
-func (c *User) Name() string  { return c.name }
-
-// TODO: implement update
-// func (c *User) SetName(name string) {
-// 	c.name = name
-//     c.Updated()
-// }
+func (u *User) ID() uuid.UUID      { return u.id }
+func (u *User) Password() Password { return u.password }
+func (u *User) Name() string       { return u.name }

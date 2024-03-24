@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import {
   Button,
   Card,
@@ -43,8 +44,13 @@ export function FlashCard() {
       example: "He admitted that he'd made an error.",
       pronunciation: "/ˈer.ɚ/",
     };
+
     try {
-      fetch(url)
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("flashcard_access_token")}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -203,7 +209,10 @@ function UpdateStatusButton({
   const updateStatus = () => {
     fetch(url, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("flashcard_access_token")}`,
+      },
       body: JSON.stringify({ word, status, description: definition }),
     }).then(() => {
       getFlashCard();
